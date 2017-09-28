@@ -37,8 +37,6 @@ typedef void(^A0LockCallback)(NSArray *parameters);
 
 - (void)configureLockWithClientId:(NSString *)clientId domain:(NSString *)domain version:(NSString *)version;
 
-- (BOOL)handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication;
-
 + (instancetype)sharedInstance;
 
 @end

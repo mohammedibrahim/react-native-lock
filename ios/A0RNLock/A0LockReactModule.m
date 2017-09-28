@@ -22,9 +22,7 @@
 
 #import "A0LockReactModule.h"
 #import "A0LockReact.h"
-#import "A0ThemeReact.h"
 #import <Lock/Lock.h>
-#import <Lock/A0SafariAuthenticator.h>
 
 #if __has_include(<Lock-Facebook/A0FacebookAuthenticator.h>)
 #define FACEBOOK_ENABLED 1
@@ -49,22 +47,7 @@ RCT_REMAP_METHOD(init, configureLockWithValues:(NSDictionary *)values) {
     NSString *clientId = values[@"clientId"];
     NSString *domain = values[@"domain"];
     if (clientId && domain) {
-        A0LockReact *lockReact = [A0LockReact sharedInstance];
-        [lockReact configureLockWithClientId:clientId domain:domain version:values[@"libraryVersion"]];
-        BOOL useBrowser = [values[@"useBrowser"] boolValue];
-        if (useBrowser) {
-            A0Lock *lock = [lockReact lock];
-            [[lock identityProviderAuthenticator] registerDefaultAuthenticationProvider:^A0BaseAuthenticator * _Nonnull(A0Lock * _Nonnull lock, NSString * _Nonnull connectionName) {
-                return [[A0SafariAuthenticator alloc] initWithLock:lock connectionName:connectionName useUniversalLink:NO];
-            }];
-        }
-    }
-    NSDictionary *style = values[@"style"];
-    if (style) {
-        NSDictionary *iosStyle = style[@"ios"];
-        if (iosStyle) {
-            [[A0ThemeReact alloc] themeLockWithStyle:iosStyle];
-        }
+        [[A0LockReact sharedInstance] configureLockWithClientId:clientId domain:domain version:values[@"libraryVersion"]];
     }
 }
 
